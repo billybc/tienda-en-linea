@@ -11,21 +11,6 @@
   <link rel="stylesheet" href="styles.css">
   <!-- Bootstrap Icons (para carrito) -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-
-  <style>
-    body {
-      background-color: #f8f9fa;
-    }
-
-    .product-card img {
-      height: 180px;
-      object-fit: cover;
-    }
-
-    .category-menu .list-group-item:hover {
-      background-color: #f1f3f5;
-    }
-  </style>
 </head>
 
 <body>
@@ -36,7 +21,8 @@
     <div class="d-flex justify-content-between align-items-center mb-3">
       <h1 class="h3 m-0">Mi Tienda Online</h1>
 
-      <button type="button" class="btn btn-outline-dark position-relative">
+      <button type="button" class="btn btn-outline-dark position-relative" data-bs-toggle="offcanvas"
+        data-bs-target="#carritoOffcanvas" aria-controls="carritoOffcanvas">
         <i class="bi bi-cart3"></i>
         Carrito
         <span id="contadorCarrito"
@@ -89,108 +75,163 @@
       <!-- Derecha: productos -->
       <section class="col-sm-9">
         <h2 class="h5 mb-3">Productos destacados</h2>
-        <div class="row g-3">
-          <!-- Producto 1 -->
-          <div class="col-12 col-md-4">
-            <div class="card product-card h-100">
-              <img src="https://picsum.photos/400/250?random=1" class="card-img-top" alt="Producto 1">
-              <div class="card-body d-flex flex-column">
-                <h5 class="card-title">Producto 1</h5>
-                <button class="btn btn-primary mt-auto agregar-carrito" data-producto="Producto 1">
-
-                  Agregar al carrito
-
-                </button>
-              </div>
-            </div>
-          </div>
-
-          <!-- Producto 2 -->
-          <div class="col-12 col-md-4">
-            <div class="card product-card h-100">
-              <img src="https://picsum.photos/400/250?random=2" class="card-img-top" alt="Producto 2">
-              <div class="card-body d-flex flex-column">
-                <h5 class="card-title">Producto 2</h5>
-                <button class="btn btn-primary mt-auto agregar-carrito" data-producto="Producto 1">
-
-                  Agregar al carrito
-
-                </button>
-              </div>
-            </div>
-          </div>
-
-          <!-- Producto 3 -->
-          <div class="col-12 col-md-4">
-            <div class="card product-card h-100">
-              <img src="https://picsum.photos/400/250?random=3" class="card-img-top" alt="Producto 3">
-              <div class="card-body d-flex flex-column">
-                <h5 class="card-title">Producto 3</h5>
-                <button class="btn btn-primary mt-auto agregar-carrito" data-producto="Producto 1">
-
-                  Agregar al carrito
-
-                </button>
-              </div>
-            </div>
-          </div>
-
-          <!-- Producto 4 -->
-          <div class="col-12 col-md-4">
-            <div class="card product-card h-100">
-              <img src="https://picsum.photos/400/250?random=4" class="card-img-top" alt="Producto 4">
-              <div class="card-body d-flex flex-column">
-                <h5 class="card-title">Producto 4</h5>
-                <button class="btn btn-primary mt-auto agregar-carrito" data-producto="Producto 1">
-
-                  Agregar al carrito
-
-                </button>
-              </div>
-            </div>
-          </div>
-
-          <!-- Producto 5 -->
-          <div class="col-12 col-md-4">
-            <div class="card product-card h-100">
-              <img src="https://picsum.photos/400/250?random=5" class="card-img-top" alt="Producto 5">
-              <div class="card-body d-flex flex-column">
-                <h5 class="card-title">Producto 5</h5>
-                <button class="btn btn-primary mt-auto agregar-carrito" data-producto="Producto 1">
-
-                  Agregar al carrito
-
-                </button>
-              </div>
-            </div>
-          </div>
-
-          <!-- Producto 6 -->
-          <div class="col-12 col-md-4">
-            <div class="card product-card h-100">
-              <img src="https://picsum.photos/400/250?random=6" class="card-img-top" alt="Producto 6">
-              <div class="card-body d-flex flex-column">
-                <h5 class="card-title">Producto 6</h5>
-                <button class="btn btn-primary mt-auto agregar-carrito" data-producto="Producto 1">
-
-                  Agregar al carrito
-
-                </button>
-              </div>
-            </div>
-          </div>
+        <!-- Los productos se cargan dinámicamente desde la API -->
+        <div id="contenedor-productos" class="row g-3">
+          <p class="text-muted">Cargando productos...</p>
         </div>
       </section>
     </div>
 
   </div>
 
+  <!-- Panel lateral del carrito -->
+  <div class="offcanvas offcanvas-end" tabindex="-1" id="carritoOffcanvas" aria-labelledby="carritoOffcanvasLabel">
+    <div class="offcanvas-header">
+      <h5 class="offcanvas-title" id="carritoOffcanvasLabel">Tu carrito</h5>
+      <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Cerrar"></button>
+    </div>
+    <div class="offcanvas-body d-flex flex-column">
+      <div id="listaCarrito" class="flex-grow-1">
+        <p class="text-muted">Tu carrito está vacío.</p>
+      </div>
+      <hr>
+      <div class="d-flex justify-content-between fw-bold">
+        <span>Total:</span>
+        <span id="totalCarritoMonto">$0.00</span>
+      </div>
+    </div>
+  </div>
+
   <!-- Footer -->
-  <footer class="text-center py-3 mt-4 bg-white border-top">
-    Diseñado por: Billy Eduardo cardona Lopez - 1890-20-15738
+  <footer class="text-center py-3 mt-4">
+    Diseñado por: Billy Eduardo Cardona Lopez - 1890-20-15738
   </footer>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Carga dinámica de productos desde la API -->
+  <script>
+    const url = "https://backservicetest-g8emcvdff0fqe2b8.canadacentral-01.azurewebsites.net/api/producto";
+    const contenedor = document.getElementById("contenedor-productos");
+    const contadorCarrito = document.getElementById("contadorCarrito");
+    const listaCarrito = document.getElementById("listaCarrito");
+    const totalCarritoMonto = document.getElementById("totalCarritoMonto");
+    let carrito = [];
+
+    function agregarAlCarrito(producto) {
+      const precioFinal = (producto.enOferta && producto.precioOferta != null)
+        ? parseFloat(producto.precioOferta)
+        : parseFloat(producto.precio);
+
+      carrito.push({
+        id: producto.id,
+        nombre: producto.nombre,
+        precio: precioFinal,
+        imagen: producto.imagen
+      });
+
+      renderCarrito();
+    }
+
+    function eliminarDelCarrito(index) {
+      carrito.splice(index, 1);
+      renderCarrito();
+    }
+
+    function renderCarrito() {
+      contadorCarrito.textContent = carrito.length;
+
+      if (carrito.length === 0) {
+        listaCarrito.innerHTML = '<p class="text-muted">Tu carrito está vacío.</p>';
+        totalCarritoMonto.textContent = "$0.00";
+        return;
+      }
+
+      let html = "";
+      let total = 0;
+
+      carrito.forEach((item, index) => {
+        total += item.precio;
+        html += `
+          <div class="d-flex align-items-center mb-3 border-bottom pb-2">
+            <img src="${item.imagen}" alt="${item.nombre}" class="rounded me-2" style="width:50px;height:50px;object-fit:cover;">
+            <div class="flex-grow-1">
+              <div class="small fw-semibold">${item.nombre}</div>
+              <div class="small text-muted">$${item.precio.toFixed(2)}</div>
+            </div>
+            <button class="btn btn-sm btn-outline-danger eliminar-item" data-index="${index}">
+              <i class="bi bi-trash"></i>
+            </button>
+          </div>
+        `;
+      });
+
+      listaCarrito.innerHTML = html;
+      totalCarritoMonto.textContent = `$${total.toFixed(2)}`;
+
+      listaCarrito.querySelectorAll(".eliminar-item").forEach((boton) => {
+        boton.addEventListener("click", (e) => {
+          const index = parseInt(e.currentTarget.getAttribute("data-index"));
+          eliminarDelCarrito(index);
+        });
+      });
+    }
+
+    async function cargarProductos() {
+      try {
+        const response = await fetch(url);
+
+        if (!response.ok) {
+          throw new Error(`Error HTTP: ${response.status}`);
+        }
+
+        const productos = await response.json();
+
+        // Limpiar el mensaje de "Cargando productos..."
+        contenedor.innerHTML = "";
+
+        productos.forEach((producto) => {
+          const col = document.createElement("div");
+          col.className = "col-sm-12 col-md-4 mb-4";
+
+          let precioHTML = "";
+
+          if (producto.enOferta && producto.precioOferta != null) {
+            precioHTML = `
+              <span class="text-danger fw-bold">$${parseFloat(producto.precioOferta).toFixed(2)}</span>
+              <small class="text-muted text-decoration-line-through ms-2">$${parseFloat(producto.precio).toFixed(2)}</small>
+            `;
+          } else {
+            precioHTML = `<span class="fw-bold">$${parseFloat(producto.precio).toFixed(2)}</span>`;
+          }
+
+          col.innerHTML = `
+            <div class="card product-card h-100">
+              <img src="${producto.imagen}" class="card-img-top" alt="${producto.nombre}">
+              <div class="card-body d-flex flex-column">
+                <h5 class="card-title">${producto.nombre}</h5>
+                <p class="card-text">${producto.descripcion}</p>
+                <p class="mb-2">${precioHTML}</p>
+                <button class="btn btn-primary mt-auto agregar-carrito">Agregar al carrito</button>
+              </div>
+            </div>
+          `;
+
+          col.querySelector(".agregar-carrito").addEventListener("click", () => {
+            agregarAlCarrito(producto);
+          });
+
+          contenedor.appendChild(col);
+        });
+
+      } catch (error) {
+        console.error("Error al cargar productos:", error);
+        contenedor.innerHTML = '<div class="alert alert-danger">No se pudieron cargar los productos. Intenta de nuevo más tarde.</div>';
+      }
+    }
+
+    cargarProductos();
+  </script>
 </body>
 
 </html>
